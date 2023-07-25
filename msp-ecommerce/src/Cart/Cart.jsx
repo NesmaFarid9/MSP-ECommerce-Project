@@ -26,6 +26,7 @@ const Cart = () => {
                     <div className={style.image} style={{ backgroundImage: `url(${image13})` }}></div>
                     <div className={style.details}>
                         <h3>Product</h3>
+                    
                         <div className={style.cartFooter}>
 
                             <div className={style.price}>
