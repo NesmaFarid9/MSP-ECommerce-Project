@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import style from "./Home.module.css"
 // import images
 import image1 from "../images/gloves.jpg";
@@ -21,6 +21,51 @@ import Products from '../Products/Products';
 import Cart from '../Cart/Cart';
 
 const Home = () => {
+    const [prodecuts, setProducts] = useState([
+        { image: image1, name: "Gloves", oldPrice: 50, offer: 10 },
+        { image: image2, name: "Camera", oldPrice: 650, offer: 40 },
+        { image: image3, name: "T-Shirts", oldPrice: 1000, offer: 30 },
+        { image: image4, name: "Pants", oldPrice: 850, offer: 18 },
+        { image: image5, name: "Dress", oldPrice: 680, offer: 44 },
+        { image: image6, name: "Shoes", oldPrice: 600, offer: 13 },
+        { image: image7, name: "Bag", oldPrice: 300, offer: 5 },
+        { image: image8, name: "Hat", oldPrice: 70, offer: 8 },
+        { image: image9, name: "Sunglasses", oldPrice: 920, offer: 14 },
+        { image: image10, name: "Lamp", oldPrice: 850, offer: 46 },
+        { image: image11, name: "Towel", oldPrice: 400, offer: 30 },
+        { image: image12, name: "Chairs", oldPrice: 1000, offer: 33 },
+        { image: image13, name: "Cushion", oldPrice: 550, offer: 26 },
+        { image: image14, name: "CoffeeCups", oldPrice: 140, offer: 28 },
+        { image: image15, name: "Curtain", oldPrice: 390, offer: 42 },
+    ]);
+    const [cart, setCart] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const addCart = (e,indexToAdd) => {
+        //update cart
+        setCart([...cart,prodecuts[indexToAdd]])
+
+        //update total price
+       const {oldPrice,offer} = prodecuts[indexToAdd];
+       setTotalPrice(totalPrice + (oldPrice * (offer/100)));
+       
+       // update products
+       setProducts(prodecuts.filter((product,index)=>index!==indexToAdd))
+    }
+    const RemoveFromCart = (e,indexToRemove) => {
+        //update cart
+        setProducts([cart[indexToRemove],...prodecuts])
+
+        //update total price
+       const {oldPrice,offer} = cart[indexToRemove];
+       setTotalPrice(totalPrice - (oldPrice * (offer/100)).toFixed(2));
+
+
+
+       // update products
+       setCart(cart.filter((prodecut,index)=>index!==indexToRemove))
+    }
+
     return (
         <Fragment>
             <div className={style.mainHome}>
@@ -32,21 +77,21 @@ const Home = () => {
                 </header>
                 <section>
                     <div className={style.productsHeader}>
-                        <p>15</p>
+                        <p>{prodecuts.length}</p>
                         <h1>Top Home Picks</h1>
                     </div>
 
                     <div>
-                        <Products />
+                        <Products list={prodecuts} addCart={addCart} />
                     </div>
                 </section>
                 <section>
-                    <div><Cart/></div>
+                    <div><Cart list={cart} RemoveFromCart={RemoveFromCart}/></div>
                     <div className={style.cartFooter}>
                         <h1>Total Price:</h1>
                         <span>
                             <sub>EGP</sub>
-                            <p>500</p>
+                            <p>{totalPrice}</p>
                         </span>
 
                     </div>
