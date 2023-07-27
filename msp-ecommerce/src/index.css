@@ -50,5 +50,5 @@ button:active{
 /* Handel */
 ::-webkit-scrollbar-thumb {
   background: #84abff;
-  border-radius: 20px;
+  border-radius: 40px;
 }
